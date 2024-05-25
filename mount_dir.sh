@@ -18,3 +18,12 @@ if mountpoint -q "$HOME/cheri/DATA"; then
 else
     echo "Mount failed"
 fi
+
+# Add commands to the history
+echo "ccc riscv64-purecap example.c -o example_cap" >> ~/.bash_history
+echo "ccc riscv64 example.c -o example" >> ~/.bash_history
+
+# Reload the history
+history -r
+
+echo "Commands added to history."
