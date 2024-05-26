@@ -53,16 +53,20 @@ echo "SMBFS mount script created at $SMBFS_SCRIPT"
 
 # Start the VM and use expect to interact with it
 expect << EOF
+# Start the VM
 spawn ~/cheribuild/cheribuild.py run-riscv64-purecap
-expect {
-    "login:" {
-        send "root\r"
-        exp_continue
-    }
-    "# " {
-        send "$SMBFS_SCRIPT\r"
-        expect "# "
-        send "exit\r"
-    }
-}
+
+# Wait for the VM to boot up
+sleep 60
+
+# Login as root
+expect "login:"
+send "root\r"
+
+# Execute the SMBFS script
+expect "# "
+send "$SMBFS_SCRIPT\r"
+
+# Leave the terminal open
+interact
 EOF
