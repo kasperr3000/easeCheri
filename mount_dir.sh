@@ -6,7 +6,14 @@ PASSWORD="cheri"
 # Check if expect is installed, if not install it
 if ! command -v expect &> /dev/null; then
     echo "expect is not installed. Installing expect..."
-    echo "$PASSWORD" | sudo -S apt install expect
+    echo "$PASSWORD" | sudo -S apt update
+    sudo apt install -y expect
+    if [ $? -eq 0 ]; then
+        echo "expect is installed."
+    else
+        echo "Failed to install expect. Exiting."
+        exit 1
+    fi
 else
     echo "expect is already installed."
 fi
