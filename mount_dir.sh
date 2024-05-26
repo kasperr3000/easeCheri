@@ -3,6 +3,14 @@
 # Define the sudo password
 PASSWORD="cheri"
 
+# Check if expect is installed, if not install it
+if ! command -v expect &> /dev/null; then
+    echo "expect is not installed. Installing expect..."
+    echo "$PASSWORD" | sudo -S apt install expect
+else
+    echo "expect is already installed."
+fi
+
 # Check if the directory exists, if not create it
 if [ ! -d "$HOME/cheri/DATA" ]; then
     echo "Creating directory ~/cheri/DATA"
@@ -43,18 +51,18 @@ chmod +x $SMBFS_SCRIPT
 
 echo "SMBFS mount script created at $SMBFS_SCRIPT"
 
-# Start the VM and execute the SMBFS script
-~/cheribuild/cheribuild.py run-riscv64-purecap &
-sleep 30  # Adjust sleep time as needed for the VM to start
-
-# Use expect to login to the VM and run the SMBFS script
+# Start the VM and use expect to interact with it
 expect << EOF
-spawn ssh -o StrictHostKeyChecking=no root@localhost
-expect "root@localhost's password:"
-send "root\r"
-expect "# "
-send "$SMBFS_SCRIPT\r"
-expect "# "
-send "exit\r"
-expect eof
+spawn ~/cheribuild/cheribuild.py run-riscv64-purecap
+expect {
+    "login:" {
+        send "root\r"
+        exp_continue
+    }
+    "# " {
+        send "$SMBFS_SCRIPT\r"
+        expect "# "
+        send "exit\r"
+    }
+}
 EOF
