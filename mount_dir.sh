@@ -42,3 +42,19 @@ echo 'mount_smbfs -I 10.0.2.4 -N //10.0.2.4/source_root /mnt' >> $SMBFS_SCRIPT
 chmod +x $SMBFS_SCRIPT
 
 echo "SMBFS mount script created at $SMBFS_SCRIPT"
+
+# Start the VM and execute the SMBFS script
+~/cheribuild/cheribuild.py run-riscv64-purecap &
+sleep 30  # Adjust sleep time as needed for the VM to start
+
+# Use expect to login to the VM and run the SMBFS script
+expect << EOF
+spawn ssh -o StrictHostKeyChecking=no root@localhost
+expect "root@localhost's password:"
+send "root\r"
+expect "# "
+send "$SMBFS_SCRIPT\r"
+expect "# "
+send "exit\r"
+expect eof
+EOF
