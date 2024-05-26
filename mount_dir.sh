@@ -3,6 +3,8 @@
 # Define the sudo password
 PASSWORD="cheri"
 
+xrandr --output Virtual-1 --mode 1690x1050
+
 # Check if expect is installed, if not install it
 if ! command -v expect &> /dev/null; then
     echo "expect is not installed. Installing expect..."
@@ -70,6 +72,10 @@ expect "# "
 
 # Execute the SMBFS script
 send "mount_smbfs -I 10.0.2.4 -N //10.0.2.4/source_root /mnt\r"
+
+sleep 2
+# Change directory to shared dir
+send "cd /mnt/DATA"
 
 # Keep the script running
 interact
