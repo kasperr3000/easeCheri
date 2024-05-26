@@ -22,8 +22,20 @@ fi
 # Add commands to the history
 echo "ccc riscv64-purecap example.c -o example_cap" >> ~/.bash_history
 echo "ccc riscv64 example.c -o example" >> ~/.bash_history
+echo "~/cheribuild/cheribuild.py run-riscv64-purecap" >> ~/.bash_history
 
 # Reload the history
 history -r
 
 echo "Commands added to history."
+
+# Create a script to mount SMBFS
+SMBFS_SCRIPT="$HOME/cheri/mount_smbfs.sh"
+
+echo '#!/bin/bash' > $SMBFS_SCRIPT
+echo 'mount_smbfs -I 10.0.2.4 -N //10.0.2.4/source_root /mnt' >> $SMBFS_SCRIPT
+
+# Make the script executable
+chmod +x $SMBFS_SCRIPT
+
+echo "SMBFS mount script created at $SMBFS_SCRIPT"
