@@ -51,6 +51,13 @@ chmod +x $SMBFS_SCRIPT
 
 echo "SMBFS mount script created at $SMBFS_SCRIPT"
 
+# Create the start_cheribsd.sh script
+cat <<EOF > ~/start_cheribsd.sh
+#!/usr/bin/expect -f
+
+# Define the password
+set PASSWORD "cheri"
+
 # Start the VM
 spawn ~/cheribuild/cheribuild.py run-riscv64-purecap
 
@@ -65,7 +72,14 @@ send "root\r"
 expect "# "
 
 # Execute the SMBFS script
-send "mount_smbfs -I 10.0.2.4 -N //10.0.2.4/source_root /mnt"
+send "~/cheri/mount_smbfs.sh\r"
 
 # Keep the script running
 interact
+EOF
+
+# Make the start_cheribsd.sh script executable
+chmod +x ~/start_cheribsd.sh
+
+# Execute the start_cheribsd.sh script
+~/start_cheribsd.sh
