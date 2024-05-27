@@ -49,6 +49,9 @@ history -r
 
 echo "Commands added to history."
 
+echo 'alias cheri_compile="for file in *.c; do output=\${file%.c}_purecap; ccc riscv64-purecap -O1 \"\$file\" -o \"\$output\"; done"' >> ~/.bashrc
+echo "Alias created:'cheri_compile' to auto compile .c files with riscv64-purecap ."
+
 
 # Create the start_cheribsd.sh script
 cat <<EOF > ~/start_cheribsd.sh
