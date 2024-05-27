@@ -61,7 +61,7 @@ set PASSWORD "cheri"
 spawn ~/cheribuild/cheribuild.py run-riscv64-purecap
 
 # Wait for the VM to boot
-sleep 80
+sleep 90
 
 # Send 'root' for login
 expect "login:"
