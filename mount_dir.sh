@@ -39,26 +39,6 @@ else
     echo "Mount failed"
 fi
 
-
-# echo 'alias cheri_compile="for file in *.c; do output=\${file%.c}_purecap; ccc riscv64-purecap -O1 \"\$file\" -o \"\$output\"; done"' >> ~/.bashrc
-# echo "Alias created:'cheri_compile' to auto compile .c files with riscv64-purecap ."
-
-# # Name of the common parent directory
-# PARENT_DIR_NAME="D"
-
-# # Function to find the parent directory
-# find_parent_dir() {
-#     local dir="$PWD"
-#     while [ "$dir" != "/" ]; do
-#         if [ "$(basename "$dir")" == "$PARENT_DIR_NAME" ]; then
-#             echo "$dir"
-#             return
-#         fi
-#         dir=$(dirname "$dir")
-#     done
-#     echo ""
-# }
-
 # Find the parent directory
 PARENT_DIR="$HOME/cheri/DATA"
 
@@ -121,7 +101,7 @@ send "cd /mnt/DATA\r"
 
 sleep 2
 # Change directory to shared dir
-send "PS1=\$"
+send "PS1=\$\r"
 
 # Keep the script running
 interact
