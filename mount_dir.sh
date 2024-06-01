@@ -70,6 +70,8 @@ echo "Commands added to history."
 echo 'alias cheri_compile="for file in *.c; do output=\${file%.c}_purecap; ccc riscv64-purecap -O1 \"\$file\" \"'"$HEADER_FILE"'\" -o \"\$output\"; done"' >> ~/.bashrc
 echo "Alias created:'cheri_compile' to auto compile .c files with riscv64-purecap ."
 
+# Make the horrible print of the path and useless host print shorter
+echo "PS1='\[\e]0;\u: \W\a\]\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$'" >> ~/.bashrc
 
 
 # Create the start_cheribsd.sh script
@@ -100,7 +102,7 @@ sleep 2
 send "cd /mnt/DATA\r"
 
 sleep 2
-# Change directory to shared dir
+# Change the horrible PS1 print
 send "PS1=\$\r"
 
 # Keep the script running
