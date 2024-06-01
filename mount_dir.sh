@@ -40,17 +40,54 @@ else
 fi
 
 # Add commands to the history
-echo "ccc riscv64-purecap example.c -o example_cap" >> ~/.bash_history
+echo "ccc riscv64-purecap -O1 example.c -o example_purecap" >> ~/.bash_history
 echo "ccc riscv64 example.c -o example" >> ~/.bash_history
 echo "~/cheribuild/cheribuild.py run-riscv64-purecap" >> ~/.bash_history
 
 # Reload the history
 history -r
-
 echo "Commands added to history."
 
-echo 'alias cheri_compile="for file in *.c; do output=\${file%.c}_purecap; ccc riscv64-purecap -O1 \"\$file\" -o \"\$output\"; done"' >> ~/.bashrc
+# echo 'alias cheri_compile="for file in *.c; do output=\${file%.c}_purecap; ccc riscv64-purecap -O1 \"\$file\" -o \"\$output\"; done"' >> ~/.bashrc
+# echo "Alias created:'cheri_compile' to auto compile .c files with riscv64-purecap ."
+
+# # Name of the common parent directory
+# PARENT_DIR_NAME="D"
+
+# # Function to find the parent directory
+# find_parent_dir() {
+#     local dir="$PWD"
+#     while [ "$dir" != "/" ]; do
+#         if [ "$(basename "$dir")" == "$PARENT_DIR_NAME" ]; then
+#             echo "$dir"
+#             return
+#         fi
+#         dir=$(dirname "$dir")
+#     done
+#     echo ""
+# }
+
+# Find the parent directory
+PARENT_DIR="$HOME/cheri/DATA"
+
+# Check if the parent directory was found
+if [ -z "$PARENT_DIR" ]; then
+    echo "Parent directory '$PARENT_DIR_NAME' not found!"
+    exit 1
+fi
+
+# Find the .a file within the parent directory
+HEADER_FILE=$(find "$PARENT_DIR" -name capita-cheri.a 2>/dev/null | head -n 1)
+
+# Check if the .a file was found
+if [ -z "$HEADER_FILE" ]; then
+    echo "Header file 'capita-cheri.a' not found!"
+    exit 1
+fi
+
+echo 'alias cheri_compile="for file in *.c; do output=\${file%.c}_purecap; ccc riscv64-purecap -O1 \"\$file\" \"'"HEADER_FILE"'\" -o \"\$output\"; done"' >> ~/.bashrc
 echo "Alias created:'cheri_compile' to auto compile .c files with riscv64-purecap ."
+
 
 
 # Create the start_cheribsd.sh script
@@ -79,6 +116,10 @@ send "mount_smbfs -I 10.0.2.4 -N //10.0.2.4/source_root /mnt\r"
 sleep 2
 # Change directory to shared dir
 send "cd /mnt/DATA\r"
+
+sleep 2
+# Change directory to shared dir
+send "PS1=\$"
 
 # Keep the script running
 interact
