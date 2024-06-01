@@ -39,14 +39,6 @@ else
     echo "Mount failed"
 fi
 
-# Add commands to the history
-echo "ccc riscv64-purecap -O1 example.c -o example_purecap" >> ~/.bash_history
-echo "ccc riscv64 example.c -o example" >> ~/.bash_history
-echo "~/cheribuild/cheribuild.py run-riscv64-purecap" >> ~/.bash_history
-
-# Reload the history
-history -r
-echo "Commands added to history."
 
 # echo 'alias cheri_compile="for file in *.c; do output=\${file%.c}_purecap; ccc riscv64-purecap -O1 \"\$file\" -o \"\$output\"; done"' >> ~/.bashrc
 # echo "Alias created:'cheri_compile' to auto compile .c files with riscv64-purecap ."
@@ -85,7 +77,17 @@ if [ -z "$HEADER_FILE" ]; then
     exit 1
 fi
 
-echo 'alias cheri_compile="for file in *.c; do output=\${file%.c}_purecap; ccc riscv64-purecap -O1 \"\$file\" \"'"HEADER_FILE"'\" -o \"\$output\"; done"' >> ~/.bashrc
+# Add commands to the history
+echo "ccc riscv64-purecap -O1 example.c $HEADER_FILE -o example_purecap" >> ~/.bash_history
+echo "ccc riscv64 example.c -o example" >> ~/.bash_history
+echo "~/cheribuild/cheribuild.py run-riscv64-purecap" >> ~/.bash_history
+
+# Reload the history
+history -r
+echo "Commands added to history."
+
+# Create alias for compiling purecap c files
+echo 'alias cheri_compile="for file in *.c; do output=\${file%.c}_purecap; ccc riscv64-purecap -O1 \"\$file\" \"'"$HEADER_FILE"'\" -o \"\$output\"; done"' >> ~/.bashrc
 echo "Alias created:'cheri_compile' to auto compile .c files with riscv64-purecap ."
 
 
