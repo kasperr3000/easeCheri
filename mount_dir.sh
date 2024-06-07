@@ -44,7 +44,7 @@ PARENT_DIR="$HOME/cheri/DATA"
 
 # Check if the parent directory was found
 if [ -z "$PARENT_DIR" ]; then
-    echo "Parent directory '$PARENT_DIR_NAME' not found!"
+    echo "Parent directory '$PARENT_DIR' not found!"
     exit 1
 fi
 
