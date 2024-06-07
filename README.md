@@ -31,7 +31,7 @@ I used git to ease the script retreival:
 `./easeCheri/mount_dir.sh`
 
 ## extra
-[wait till the RISCV emulator has started and the changed to the DATA directory]
+[wait till the RISCV emulator has started and changed the directory to the DATA directory]
 The have a more robust automation, a sleep timer is setted to 90 seconds (on slow computers maybe increase the sleep time).
 
 ### note
