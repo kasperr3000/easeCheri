@@ -5,7 +5,7 @@ They both connected to `~/shared_directory_name/` wich will be translated in the
 
 # start VM
 I started my VM with parameters to init a ssh and share a directory:
-`qemu-system-x86_64 -enable-kvm -m 4096 -snapshot -virtfs local,path=~/shared_directory_name/,mount_tag=shared_dir,security_model=passthrough,id=shared -net user,hostfwd=tcp::2222-:22 -net nic /home/zeus/Projects/capita_selecta_ss/cheri/cheriVM.qcow2`
+`qemu-system-x86_64 -enable-kvm -m 4096 -snapshot -virtfs local,path=~/shared_directory_name/,mount_tag=shared_dir,security_model=passthrough,id=shared -net user,hostfwd=tcp::2222-:22 -net nic /home/.../cheri/cheriVM.qcow2`
 
 The shared map:
 `path=~/shared_directory_name/`
